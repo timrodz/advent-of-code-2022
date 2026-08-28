@@ -25,6 +25,7 @@ export class AuthenticationError extends Error {
 
 const USERS: AuthContext[] = [
   { userId: "u_admin", workspaceId: "ws_demo", role: "team_admin", email: "admin@example.com" },
+  { userId: "u_peer", workspaceId: "ws_demo", role: "team_admin", email: "peer@example.com" },
   { userId: "u_admin_b", workspaceId: "ws_other", role: "team_admin", email: "other-admin@example.com" },
   { userId: "u_member", workspaceId: "ws_demo", role: "member", email: "member@example.com" },
 ];
