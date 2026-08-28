@@ -3,6 +3,8 @@ import {
   toAlignmentVisualizationModel,
 } from "./alignmentDataSource.js";
 import { renderAlignmentScoreVisualization } from "./alignmentScoreVisualization.js";
+import { renderEngagementHeatmap } from "./engagementHeatmap.js";
+import { readEngagementHeatmap } from "../views/engagementHeatmapView.js";
 
 export interface LifecycleMetrics {
   averageHoursByStatus: Record<string, number>;
@@ -14,9 +16,12 @@ export interface VelocityMetrics {
   taskThroughput: number;
 }
 
-/** Placeholder until the engagement heatmap parent lands. */
-export function renderEngagementHeatmapSlot(): string {
-  return `<section class="engagement-heatmap-slot" aria-label="Engagement heatmap placeholder"><h2>Engagement</h2><p>Heatmap shipping next.</p></section>`;
+export function renderEngagementHeatmapSlot(workspaceId: string): string {
+  const snapshot = readEngagementHeatmap(workspaceId);
+  if (!snapshot) {
+    return `<section class="engagement-heatmap" aria-label="Engagement heatmap"><h2>Engagement</h2><p>No engagement data.</p></section>`;
+  }
+  return renderEngagementHeatmap(snapshot);
 }
 
 export function renderLifecyclePanel(metrics: LifecycleMetrics): string {
@@ -62,6 +67,6 @@ export function renderCoreDashboard(workspaceId: string): string {
     ${renderLifecyclePanel(DEFAULT_LIFECYCLE)}
     ${renderVelocityPanel(DEFAULT_VELOCITY)}
     ${alignmentHtml}
-    ${renderEngagementHeatmapSlot()}
+    ${renderEngagementHeatmapSlot(workspaceId)}
   </main>`;
 }
